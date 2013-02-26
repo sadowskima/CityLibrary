@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Web", "CityLibrary.Web\CityLibrary.Web.csproj", "{8853D910-79D5-447A-89BA-2E87728C8D04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Core", "CityLibrary.Core\CityLibrary.Core.csproj", "{E8EEE603-1669-4A37-A981-F611D21FCB0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Tests", "CityLibrary.Tests\CityLibrary.Tests.csproj", "{0F4CDE4D-6325-4215-832A-30FC85A82862}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8853D910-79D5-447A-89BA-2E87728C8D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8853D910-79D5-447A-89BA-2E87728C8D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8853D910-79D5-447A-89BA-2E87728C8D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8853D910-79D5-447A-89BA-2E87728C8D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8EEE603-1669-4A37-A981-F611D21FCB0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8EEE603-1669-4A37-A981-F611D21FCB0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8EEE603-1669-4A37-A981-F611D21FCB0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8EEE603-1669-4A37-A981-F611D21FCB0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4CDE4D-6325-4215-832A-30FC85A82862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4CDE4D-6325-4215-832A-30FC85A82862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4CDE4D-6325-4215-832A-30FC85A82862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4CDE4D-6325-4215-832A-30FC85A82862}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

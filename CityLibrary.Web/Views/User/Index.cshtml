@@ -1,0 +1,122 @@
+﻿@model IEnumerable<CityLibrary.Web.ViewModels.UserViewModel>
+@{
+    ViewBag.Title = "UserIndex - Lista użytkowników";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    
+}
+
+<h2>Lista użytkowników</h2>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //$('.remove-user').click(function (e) {
+        //});
+        // alert('Usunięto');
+
+        // $('#search').val('jakis tekst');// # -> id kontrolki
+
+        // $('.abc').val('jakis tekst');// . -> class
+        // var tekst = $('.abc').val();
+
+        $('.remove-user').live('click', function (e) {
+            e.preventDefault();
+            var user = $(this).data('user');
+            var id = $(this).data('id');
+
+
+
+            if (confirm('Czy na pewno chcesz usunąć użytkownika (' + id + '): ' + user)) {
+                var href = $(this).attr('href');
+
+                // $.post &.get
+
+                $.ajax({
+                    url: href,
+                    type: "POST",
+                    success: function (data) {
+                        $(window.location).attr('href', window.location);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    <br />
+    <!-- <input type="text" id="search" class="abc" style="width: 200px" />
+    <input type="text" id="search2" class="abc" style="width: 200px" /> -->
+</p>
+<table>
+    <tr>
+        <th>UserId
+        </th>
+        <th>FirstName
+        </th>
+        <th>LastName
+        </th>
+        <th>BirthDate
+        </th>
+        <th>Email
+        </th>
+        <th>Phone
+        </th>
+        <th>AddDate
+        </th>
+        <th>ModifiedDate
+        </th>
+        <th>IsActive
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) | 
+            @Html.ActionLink("Details", "Details", new {id=item.UserId }) |
+
+
+                @if(item.HasBooks == false)
+              {
+                       @Html.ActionLink("Delete", "DeleteModal", new { id=item.UserId }, new { @class="remove-user", data_id = item.UserId, data_user = string.Format("{0} {1}", item.FirstName, item.LastName) })
+              }
+
+
+            </td>
+        </tr>
+}
+
+</table>

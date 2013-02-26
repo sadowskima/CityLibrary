@@ -1,0 +1,102 @@
+﻿@model CityLibrary.Web.ViewModels.UserViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Details</title>
+</head>
+<body>
+    <fieldset>
+        <legend>UserS</legend>
+    
+        <div class="display-label">UserId</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.UserId)
+        </div>
+    
+        <div class="display-label">FirstName</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FirstName)
+        </div>
+    
+        <div class="display-label">LastName</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LastName)
+        </div>
+    
+        <div class="display-label">BirthDate</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.BirthDate)
+        </div>
+    
+        <div class="display-label">Email</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
+    
+        <div class="display-label">Phone</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Phone)
+        </div>
+    
+        <div class="display-label">AddDate</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.AddDate)
+        </div>
+    
+        <div class="display-label">ModifiedDate</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </div>
+    
+        <div class="display-label">IsActive</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.IsActive)
+        </div>
+    
+        <div class="display-label">HasBooks</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.HasBooks)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    <table>
+    <tr>
+        <th>BookId
+        </th>
+        <th>ToDate
+        </th>
+        <th>BorrowId
+        </th>
+       
+    </tr>
+
+    @foreach (var item in Model.Borrows) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowId)
+            </td>
+        </tr>
+}
+
+</table>
+
+
+
+</body>
+</html>

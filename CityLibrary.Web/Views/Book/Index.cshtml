@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+   <!-- Layout = "~/Views/Shared/_Layout.cshtml"; -->
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/books.js")"></script>
+
+<script type="text/javascript">
+    
+
+    // Ajax Request 
+    this.rq = function(method, data, async, success) {
+        var x = $.ajax({
+            type: "POST",
+            url: '/Book/' + method,
+            data: JSON.stringify(data), // create json object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: async, // czy wywołanie asynchroniczne bool
+            success: success, // success - function
+            error: function (e) {
+                if (typeof console !== 'undefined')
+                    console.log('Error occured while getting response from method: ' + method + '. Response: ' + e.responseMessage);
+            }
+        });
+        return x;
+    };
+
+    $(document).ready(function () {
+        var self = this;
+
+        $(".add-new").live("click", function (e) {
+            e.preventDefault();
+            var x = $.ajax({
+                type: "POST",
+                url: '/Book/CreateView',
+                async: true, // czy wywołanie asynchroniczne bool
+                success: function (data) {
+                    $('#b-modal').html(data);
+                    $('#book-modal').modal('show');
+                },
+                error: function (err) {
+                    if (typeof console !== 'undefined') {
+                        console.log('Error occured while getting response from method: ' + method + '. Response: ' + err.responseMessage);
+                    }
+                    alert('Błąd podczas pobierania widoku do nowej książki');
+                }
+            });
+            // jesli async: false
+        });
+
+        $(".edit-book").live("click", function (e) {
+            e.preventDefault();
+            
+            var id = $(this).data('id');
+            var x = $.ajax({
+                type: "POST",
+                url: '/Book/EditView',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ id : id }),
+                async: true,
+                success: function (data) {
+                    $('#b-modal').html(data);
+                    $('#book-modal').modal('show');
+                },
+                error: function (err) {
+                    if (typeof console !== 'undefined') {
+                        console.log('Error occured while getting response. Response: ' + err.responseMessage);
+                    }
+                    alert('Błąd podczas pobierania widoku do nowej książki');
+                }
+            });
+        });
+
+        var vm = new booksGrid({
+            form: $('#books-content'),
+            baseUrl: '/Book/'
+        });
+
+        //$('#books-content').data('view-model', vm);
+    });
+</script>
+
+<div id="books-content" class="k-content">
+    <div id="buttons">
+
+        @Html.ActionLink("Dodaj", "Create", null, new { @class = "btn add-new", data = "abc" })
+    </div>
+    <br />
+    <div id="grid"></div>
+
+    <div id="b-modal"></div>
+</div>

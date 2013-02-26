@@ -1,0 +1,109 @@
+﻿@model CityLibrary.Web.Models.BookModel 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Create", "Book"))
+{
+       
+    <script type="text/javascript">
+        var self = this;
+
+
+        this.BookGenreDataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: 'Book/GetGenreList',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                }
+            },
+            schema: {
+                model: {
+                    fields: {
+                        BookGenreId: { type: "number" },
+                        Name: { type: "string" }
+                    }
+                },
+                data: "Items"
+            }
+        });
+
+        $(document).ready(function () {
+
+            // KendoUI DatePicker
+            // http://demos.kendoui.com/web/datepicker/index.html
+            $("#ReleaseDate").kendoDatePicker();
+
+            $("#BookGenreId").kendoComboBox({
+                index: 0,
+                dataTextField: "Name",
+                dataValueField: "BookGenreId",
+                filter: "contains",
+                dataSource: self.BookGenreDataSource
+            });
+
+        });
+
+    </script>
+    <div class="modal hide fade" id="book-modal">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Dodawanie książki</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <span class="control-label">Author</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Author, new { @class = "span4" })
+                        @Html.ValidationMessageFor(m => m.Author)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">ISBN</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.ISBN, new { @class = "span4" })
+                        @Html.ValidationMessageFor(m => m.ISBN)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Genre</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.BookGenreId)
+                    </div>
+                </div>
+                <!--        <div class="control-group">
+                                    <span class="control-label">GenreName</span>
+                                    <div class="controls">
+                                   <input id="input" placeholder="Select Genre..." />
+                                 </div>  
+                                </div> -->
+                <div class="control-group">
+                    <span class="control-label">Title</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "span4" })
+                        @Html.ValidationMessageFor(m => m.Title)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Count</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Count, new { @class = "span4" })
+                        @Html.ValidationMessageFor(m => m.Count)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">Release date</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.ReleaseDate)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="Zapisz" />
+            <a href="#" class="btn pull-left" data-dismiss="modal">Zamknij</a>
+        </div>
+    </div>
+}
