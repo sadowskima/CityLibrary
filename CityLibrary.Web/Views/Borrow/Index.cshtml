@@ -12,14 +12,17 @@
         $('.new-borrow').live('click', function (e) {
             // niedopuść domyślnej akcji po kliknięciu
             e.preventDefault();
+            $('#b-modal').html('');
+
+            $('.k-list-container').remove();
 
             var x = $.ajax({
                 type: "POST",
                 url: '/Borrow/NewBorrowView',
                 async: true, // czy wywołanie asynchroniczne bool
                 success: function (data) {
+                    
                     $('#b-modal').html(data);
-                    $('#borrow-modal').modal('show');
                 },
                 error: function (err) {
                     if (typeof console !== 'undefined') {

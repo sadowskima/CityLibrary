@@ -5,26 +5,36 @@
        
     <script type="text/javascript">
 
-        var borrowBooks = null;
-        
+        // zmienna do przechowywania książek, które można wypożyczyć
+        // po załadowaniu z bazy danych będzie zawierać tablicę np:
+        // var booksToBorrow = [{ "BookId" : "1", "Title" : "Pierwsza książka" }, { "BookId" : "2", "Title" : "Druga książka" },];
+        // lista może też być pusta jeśli nie ma żadnej książki do wypożyczenia.
+        var booksToBorrow = null;
+
+        // Przechowuje wybrane książki do wypożyczenia
+        var selectedBooks = [];
+
+        var bookNo = 1;
+
         this.loadBooksToBorrow = function () {
             var x = $.ajax({
                 type: "POST",
                 url: '/Borrow/GetBooksToBorrow',
                 async: false,
                 success: function (data) {
-                    borrowBooks = data.Books;
+                    booksToBorrow = data.Books;
                 },
                 error: function (err) {
                     if (typeof console !== 'undefined') {
-                        console.log('Error occured while getting response from method: ' + method + '. Response: ' + err.responseMessage);
+                        console.log('Error occured while getting response from method: /Borrow/GetBooksToBorrow. Response: ' + err.responseMessage);
                     }
                     alert('Błąd podczas pobierania książek do nowego wypożyczania');
                 }
             });
         };
 
-        this.UserDataSource = new kendo.data.DataSource({
+        // Źródło danych dla listy użytkowników
+        this.userDataSource = new kendo.data.DataSource({
             transport: {
                 read: {
                     url: 'User/GetUsersJson',
@@ -45,25 +55,142 @@
         });
 
 
+        function removeBookFromList(id) {
+            // Wybierz elementy div zawierające klasę 'control-group b-list' oraz 'data-id' równe id
+            // a następnie usuń...
+            $('div[class="control-group b-list"][data-id="' + id + '"]').remove();
+
+            // Usuwanie list dodanych przez KendoUI
+            // =^ - rozpoczynające się od
+            alert($('div[id=^"book-' + id + '"]'));
+            $('#book-' + id + '-list').remove();
+
+            return true;
+        }
+
+        function addBookToList(addRemoveButton) {
+
+            //if (bookNo - 1 >= booksToBorrow.length) {
+            //    alert('Nie można wypożyczyć więcej ksiażek');
+            //    return true;
+            //}
+            
+            // http://api.jquery.com/append/
+            // Dodawanie elementów do listy za pomocą klauzuli append:
+            // $('.klasa-elementu').append(                    
+            //     $('<div></div>')                            // <- nowy element tutaj też możemy użyć append, żeby dodać do nowego elementu zawartość
+            //     .addClass("moja-klasa")                     // <- dodanie klasy do elementu div , po wygenerowaniu: <div class="moja-klasa"></div> 
+            //     .attr({                                     // <- dodanie listy atrybutów
+            //         "nazwa-atrybutu-1" : "wartosc1",        // <- pierwszy atrybut, po wygenerowaniu: <div nazwa-atrybutu-1="wartosc1"></div> 
+            //         "nazwa-atrybutu-2" : "wartosc2",        // <- drugi atrybut, po wygenerowaniu: <div nazwa-atrybutu-2="wartosc2"></div> 
+            //         "nazwa-atrybutu-3" : "wartosc3"         // <- drugi atrybut, po wygenerowaniu: <div nazwa-atrybutu-3="wartosc3"></div> 
+            //     })
+            // );
+            //
+            
+            // 
+
+            // Spospób 1
+            //var divBookList = $('.book-list');
+            //divBookList.append('<div class="control-group b-list" data-id="' + bookNo + '"><span class="control-label">Książka ' + bookNo + '</span><div class="controls"><input class="book-to-borrow" id="book-' + bookNo + '" />&nbsp;&nbsp;<a href="#" data-id="' + bookNo + '" class="remove-book" title="Usuń książkę"><i class="icon-remove"></i></a></div></div>');
+
+            // Sposób 2 (bardziej elegancki)
+            if (addRemoveButton) {
+                $('.book-list').append(                                                               // do elementu: <div class="book-list"></div> dodajemy 
+                    $('<div></div>').append(                                                          // div: <div class="control-group b-list" data-id="bookNo"></div> 
+                        $('<span></span>')                                                            // do tego powyżej dodajemy <span class="control-label">Książka bookNo</span>
+                        .text('Książka ' + bookNo)
+                        .addClass("control-label"),
+                        $('<div></div>').append(                                                      // Kolejny element dodawany do <div class="control-group b-list" data-id="bookNo"></div> 
+                            $('<input/>')
+                            .addClass("book-to-borrow")
+                            .attr({ "id": 'book-' + bookNo }),
+                            '&nbsp;&nbsp;', // dwie spacje                                            // Kolejny element dodawany do <div class="control-group b-list" data-id="bookNo"></div> 
+                            // Przycisk usuwania listy
+                            $('<a></a>').append(                                                      // Kolejny element dodawany do <div class="control-group b-list" data-id="bookNo"></div> 
+                                $('<i></i>')
+                                .addClass("icon-remove")
+                            )
+                            .addClass("remove-book")
+                            .attr({ "data-id": bookNo, "href": "#", "title" : "Usuń książkę" })
+                        )
+                        .addClass("controls")
+                    )
+                    .attr({ "data-id": bookNo })
+                    .addClass("control-group b-list")
+                );
+            }
+            else {
+                $('.book-list').append(
+                    $('<div></div>').append(
+                        $('<span></span>')
+                        .text('Książka ' + bookNo)
+                        .addClass("control-label"),
+                        $('<div></div>').append(
+                            $('<input/>')
+                            .addClass("book-to-borrow")
+                            .attr({ "id": 'book-' + bookNo })
+                        )
+                        .addClass("controls")
+                    )
+                    .attr({ "data-id": bookNo })
+                    .addClass("control-group b-list")
+                );
+            }
+
+            $('#book-' + bookNo).kendoComboBox({
+                index: 0,
+                dataTextField: "Title",
+                dataValueField: "BookId",
+                dataSource: booksToBorrow
+            });
+
+            bookNo++;
+
+            return true;
+        }
+
+
         $(document).ready(function () {
 
+            // Funkcja $.when jest wykorzystywana do wcześniejszego załadowania
+            // książek do wypożyczenia.
+            // Funkcja zawarta w metodzie done zostanie wykonana dopiero po zakończeniu pobierania
+            // książek do wypożyczenia (borrowBooks powinno już być różne od null). 
             $.when(loadBooksToBorrow()).done(function () {
-                $("#UserId").kendoComboBox({
-                    index: 0,
-                    dataTextField: "FullName",
-                    dataValueField: "UserId",
-                    dataSource: self.UserDataSource
-                });
 
-                if (borrowBooks != null)
-                {
-                    alert(borrowBooks);
+                // Jeśli są książki do wypożyczenia...
+                if (booksToBorrow != null && booksToBorrow.length) {
+                    // Załaduj comboBox do wybierania użytkownika.
+                    $("#UserId").kendoComboBox({
+                        index: 0,
+                        dataTextField: "FullName",
+                        dataValueField: "UserId",
+                        dataSource: this.userDataSource
+                    });
+
+                    // pokazujemy okno modalne z nowym wypożyczeniem
+                    $('#borrow-modal').modal('show');
+
+                    // Pierwsza lista bez przycisku usuwania
+                    addBookToList(false);
+                }
+                else {
+                    alert('Brak książek do wypożyczenia!');
                 }
 
+                // Dodanie kolejnej książki do zamówienia
                 $('.add-next-book').live('click', function (e) {
                     e.preventDefault();
-
-                    alert(borrowBooks);
+                    // każda kolejna z przyciskiem usuwania listy
+                    addBookToList(true);
+                });
+                
+                // Usuwanie książki z listą zamówień
+                $('.remove-book').live('click', function (e) {
+                    e.preventDefault();
+                    var id = $(this).data('id');
+                    removeBookFromList(id);
                 });
             });
         });
@@ -77,26 +204,24 @@
         <div class="modal-body">
             <div class="form-horizontal">
                 <div class="control-group">
-                    <div class="control-group">
-                        <span class="control-label">Użytkownik</span>
-                        <div class="controls">
-                            @Html.TextBoxFor(m => m.UserId)
-                        </div>
+                    <span class="control-label">Użytkownik</span>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.UserId)
                     </div>
                 </div>
-                <div class="books">
-
-
+                <div class="book-list">
                 </div>
                 <div class="control-group">
                     <div class="control-group">
-                        <a href="" class="btn add-next-book">Dodaj kolejną</a>
+                        
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary" value="Zapisz" />
+            <button type="submit" class="btn btn-primary">Zapisz</button>
+            <button class="btn add-next-book pull-left">Dodaj kolejną</button>
+
             <a href="#" class="btn pull-left" data-dismiss="modal">Zamknij</a>
         </div>
     </div>

@@ -4,14 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0e4620b9264347a88aa912731c558dad" Name="Diagram1">
-        <EntityTypeShape EntityType="CityLibraryModel.Book" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CityLibraryModel.Borrow" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CityLibraryModel.DictBookGenre" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CityLibraryModel.User" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <AssociationConnector Association="CityLibraryModel.fk_Book_DictBookGenre" ManuallyRouted="false" />
-        <AssociationConnector Association="CityLibraryModel.FK_Borrow_Book" ManuallyRouted="false" />
-        <AssociationConnector Association="CityLibraryModel.FK_Borrow_User" ManuallyRouted="false" />
+      <Diagram DiagramId="0e4620b9264347a88aa912731c558dad" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="CityLibraryModel.Book" Width="1.5" PointX="11.96924296951352" PointY="27.093673882583936" />
+        <EntityTypeShape EntityType="CityLibraryModel.Borrow" Width="1.5" PointX="4.1936571096040574" PointY="12.452276027040684" />
+        <EntityTypeShape EntityType="CityLibraryModel.DictBookGenre" Width="1.5" PointX="5.2623699872113621" PointY="31.098642393526919" />
+        <EntityTypeShape EntityType="CityLibraryModel.User" Width="1.5" PointX="4.6797348115033168" PointY="13.074491119512585" />
+        <AssociationConnector Association="CityLibraryModel.FK_Borrow_Book" />
+        <AssociationConnector Association="CityLibraryModel.FK_Borrow_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

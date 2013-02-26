@@ -4,16 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CityLibraryModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="CityLibraryModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="CityLibraryModelStoreContainer">
           <EntitySet Name="Book" EntityType="CityLibraryModel.Store.Book" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Borrow" EntityType="CityLibraryModel.Store.Borrow" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DictBookGenre" EntityType="CityLibraryModel.Store.DictBookGenre" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="CityLibraryModel.Store.User" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="fk_Book_DictBookGenre" Association="CityLibraryModel.Store.fk_Book_DictBookGenre">
-            <End Role="DictBookGenre" EntitySet="DictBookGenre" />
-            <End Role="Book" EntitySet="Book" />
-          </AssociationSet>
           <AssociationSet Name="FK_Borrow_Book" Association="CityLibraryModel.Store.FK_Borrow_Book">
             <End Role="Book" EntitySet="Book" />
             <End Role="Borrow" EntitySet="Borrow" />
@@ -31,11 +27,11 @@
           <Property Name="Author" Type="varchar" Nullable="false" MaxLength="70" />
           <Property Name="ReleaseDate" Type="datetime" />
           <Property Name="ISBN" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="BookGenreId" Type="int" Nullable="false" />
+          <Property Name="BookGenreId" Type="int" />
           <Property Name="Count" Type="int" Nullable="false" />
           <Property Name="AddDate" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Borrow">
           <Key>
@@ -69,18 +65,6 @@
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="fk_Book_DictBookGenre">
-          <End Role="DictBookGenre" Type="CityLibraryModel.Store.DictBookGenre" Multiplicity="1" />
-          <End Role="Book" Type="CityLibraryModel.Store.Book" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DictBookGenre">
-              <PropertyRef Name="BookGenreId" />
-            </Principal>
-            <Dependent Role="Book">
-              <PropertyRef Name="BookGenreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Borrow_Book">
           <End Role="Book" Type="CityLibraryModel.Store.Book" Multiplicity="1" />
           <End Role="Borrow" Type="CityLibraryModel.Store.Borrow" Multiplicity="*" />
@@ -105,8 +89,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CityLibraryModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -115,10 +98,6 @@
           <EntitySet Name="Borrows" EntityType="CityLibraryModel.Borrow" />
           <EntitySet Name="DictBookGenres" EntityType="CityLibraryModel.DictBookGenre" />
           <EntitySet Name="Users" EntityType="CityLibraryModel.User" />
-          <AssociationSet Name="fk_Book_DictBookGenre" Association="CityLibraryModel.fk_Book_DictBookGenre">
-            <End Role="DictBookGenre" EntitySet="DictBookGenres" />
-            <End Role="Book" EntitySet="Books" />
-          </AssociationSet>
           <AssociationSet Name="FK_Borrow_Book" Association="CityLibraryModel.FK_Borrow_Book">
             <End Role="Book" EntitySet="Books" />
             <End Role="Borrow" EntitySet="Borrows" />
@@ -132,28 +111,27 @@
           <Key>
             <PropertyRef Name="BookId" />
           </Key>
-          <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Author" Type="String" Nullable="false" MaxLength="70" Unicode="false" FixedLength="false" />
-          <Property Name="ReleaseDate" Type="DateTime" Precision="3" />
-          <Property Name="ISBN" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="BookGenreId" Type="Int32" Nullable="false" />
-          <Property Name="Count" Type="Int32" Nullable="false" />
-          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="DictBookGenre" Relationship="CityLibraryModel.fk_Book_DictBookGenre" FromRole="Book" ToRole="DictBookGenre" />
+          <Property Type="Int32" Name="BookId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Author" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ReleaseDate" Precision="3" />
+          <Property Type="String" Name="ISBN" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="BookGenreId" />
+          <Property Type="Int32" Name="Count" Nullable="false" />
+          <Property Type="DateTime" Name="AddDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDate" Precision="3" />
+          <Property Type="String" Name="Title" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Borrows" Relationship="CityLibraryModel.FK_Borrow_Book" FromRole="Book" ToRole="Borrow" />
         </EntityType>
         <EntityType Name="Borrow">
           <Key>
             <PropertyRef Name="BorrowId" />
           </Key>
-          <Property Name="BorrowId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="BookId" Type="Int32" Nullable="false" />
-          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsReturned" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="BorrowId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="BookId" Nullable="false" />
+          <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="3" />
+          <Property Type="Boolean" Name="IsReturned" Nullable="false" />
           <NavigationProperty Name="Book" Relationship="CityLibraryModel.FK_Borrow_Book" FromRole="Borrow" ToRole="Book" />
           <NavigationProperty Name="User" Relationship="CityLibraryModel.FK_Borrow_User" FromRole="Borrow" ToRole="User" />
         </EntityType>
@@ -161,40 +139,27 @@
           <Key>
             <PropertyRef Name="BookGenreId" />
           </Key>
-          <Property Name="BookGenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Books" Relationship="CityLibraryModel.fk_Book_DictBookGenre" FromRole="DictBookGenre" ToRole="Book" />
+          <Property Type="Int32" Name="BookGenreId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" Unicode="true" FixedLength="false" />
-          <Property Name="Phone" Type="String" MaxLength="60" Unicode="true" FixedLength="false" />
-          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="BirthDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="AddDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDate" Precision="3" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
           <NavigationProperty Name="Borrows" Relationship="CityLibraryModel.FK_Borrow_User" FromRole="User" ToRole="Borrow" />
         </EntityType>
-        <Association Name="fk_Book_DictBookGenre">
-          <End Role="DictBookGenre" Type="CityLibraryModel.DictBookGenre" Multiplicity="1" />
-          <End Role="Book" Type="CityLibraryModel.Book" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DictBookGenre">
-              <PropertyRef Name="BookGenreId" />
-            </Principal>
-            <Dependent Role="Book">
-              <PropertyRef Name="BookGenreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Borrow_Book">
-          <End Role="Book" Type="CityLibraryModel.Book" Multiplicity="1" />
-          <End Role="Borrow" Type="CityLibraryModel.Borrow" Multiplicity="*" />
+          <End Type="CityLibraryModel.Book" Role="Book" Multiplicity="1" />
+          <End Type="CityLibraryModel.Borrow" Role="Borrow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Book">
               <PropertyRef Name="BookId" />
@@ -205,8 +170,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Borrow_User">
-          <End Role="User" Type="CityLibraryModel.User" Multiplicity="1" />
-          <End Role="Borrow" Type="CityLibraryModel.Borrow" Multiplicity="*" />
+          <End Type="CityLibraryModel.User" Role="User" Multiplicity="1" />
+          <End Type="CityLibraryModel.Borrow" Role="Borrow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserID" />
@@ -216,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -225,50 +190,50 @@
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="CityLibraryModel.Book">
               <MappingFragment StoreEntitySet="Book">
-                <ScalarProperty Name="BookId" ColumnName="BookId" />
-                <ScalarProperty Name="Author" ColumnName="Author" />
-                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
-                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
-                <ScalarProperty Name="BookGenreId" ColumnName="BookGenreId" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="BookGenreId" ColumnName="BookGenreId" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Borrows">
             <EntityTypeMapping TypeName="CityLibraryModel.Borrow">
               <MappingFragment StoreEntitySet="Borrow">
-                <ScalarProperty Name="BorrowId" ColumnName="BorrowId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="BookId" ColumnName="BookId" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="IsReturned" ColumnName="IsReturned" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BorrowId" ColumnName="BorrowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DictBookGenres">
             <EntityTypeMapping TypeName="CityLibraryModel.DictBookGenre">
               <MappingFragment StoreEntitySet="DictBookGenre">
-                <ScalarProperty Name="BookGenreId" ColumnName="BookGenreId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BookGenreId" ColumnName="BookGenreId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CityLibraryModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -286,7 +251,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
