@@ -8,23 +8,6 @@ namespace CityLibrary.Web.Models
 {
     public class BookModel
     {
-
-
-        public BookModel()
-        {
-            //AutoMapper.Mapper.CreateMap<DictBookGenreModel, DictBookGenre>();
-            //AutoMapper.Mapper.CreateMap<DictBookGenre, DictBookGenreModel>();
-             
-            //var tmp_DictBookGenres = new List<DictBookGenre>();
-            //var dao = new UserService();
-
-            ////tmp_DictBookGenres = dao.GetGenres();
-
-            //DictBookGenres = new List<DictBookGenreModel>();
-            //DictBookGenres = AutoMapper.Mapper.Map<List<DictBookGenre>, List<DictBookGenreModel>>(tmp_DictBookGenres); 
-        }
-
-
         public int BookId { get; set; }
 
         [Required(ErrorMessage = "Author required")]

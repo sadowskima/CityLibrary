@@ -106,7 +106,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BookLiteModel.cs" />
     <Compile Include="Models\BookModel.cs" />
-    <Compile Include="Models\BorrowModel.cs" />
+    <Compile Include="Models\BorrowLiteModel.cs" />
     <Compile Include="Models\DictBookGenreModel.cs" />
     <Compile Include="Models\UserLiteModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -312,6 +312,7 @@
     <Content Include="Scripts\books.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\borrows.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />

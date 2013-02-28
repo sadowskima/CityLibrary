@@ -1,0 +1,86 @@
+<Schema Namespace="CityLibraryModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="CityLibraryModelStoreContainer">
+    <EntitySet Name="Book" EntityType="CityLibraryModel.Store.Book" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Borrow" EntityType="CityLibraryModel.Store.Borrow" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DictBookGenre" EntityType="CityLibraryModel.Store.DictBookGenre" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="CityLibraryModel.Store.User" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Borrow_Book" Association="CityLibraryModel.Store.FK_Borrow_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Borrow" EntitySet="Borrow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Borrow_User" Association="CityLibraryModel.Store.FK_Borrow_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Borrow" EntitySet="Borrow" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Author" Type="varchar" Nullable="false" MaxLength="70" />
+    <Property Name="ReleaseDate" Type="datetime" />
+    <Property Name="ISBN" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="BookGenreId" Type="int" />
+    <Property Name="Count" Type="int" Nullable="false" />
+    <Property Name="AddDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Borrow">
+    <Key>
+      <PropertyRef Name="BorrowId" />
+    </Key>
+    <Property Name="BorrowId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="BookId" Type="int" Nullable="false" />
+    <Property Name="FromDate" Type="datetime" Nullable="false" />
+    <Property Name="ToDate" Type="datetime" Nullable="false" />
+    <Property Name="IsReturned" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DictBookGenre">
+    <Key>
+      <PropertyRef Name="BookGenreId" />
+    </Key>
+    <Property Name="BookGenreId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="BirthDate" Type="datetime" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="60" />
+    <Property Name="AddDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Borrow_Book">
+    <End Role="Book" Type="CityLibraryModel.Store.Book" Multiplicity="1" />
+    <End Role="Borrow" Type="CityLibraryModel.Store.Borrow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="Borrow">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Borrow_User">
+    <End Role="User" Type="CityLibraryModel.Store.User" Multiplicity="1" />
+    <End Role="Borrow" Type="CityLibraryModel.Store.Borrow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Borrow">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

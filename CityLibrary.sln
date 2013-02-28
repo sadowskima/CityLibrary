@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Web", "CityLibrary.Web\CityLibrary.Web.csproj", "{8853D910-79D5-447A-89BA-2E87728C8D04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Core", "CityLibrary.Core\CityLibrary.Core.csproj", "{E8EEE603-1669-4A37-A981-F611D21FCB0A}"

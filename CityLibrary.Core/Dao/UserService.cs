@@ -57,7 +57,7 @@ namespace CityLibrary.Core.Dao
                     select u
                 ).Include(u => u.Borrows);
 
-                var sql = ((System.Data.Entity.Infrastructure.DbQuery<User>)query).ToString();
+                //var sql = ((System.Data.Entity.Infrastructure.DbQuery<User>)query).ToString();
 
                 users = query.ToList<User>();
             }
